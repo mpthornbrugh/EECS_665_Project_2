@@ -220,8 +220,12 @@ void fhead(struct id_entry *p)
  */
 struct id_entry *fname(int t, char *id)
 {
-   fprintf(stderr, "sem: fname not implemented\n");
-   return ((struct id_entry *) NULL);
+   struct id_entry *ip;
+
+   ip->i_name = id;
+   ip->i_blevel = t;
+
+   return (ip);
 }
 
 /*
