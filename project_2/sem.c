@@ -212,7 +212,7 @@ struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
  */
 void fhead(struct id_entry *p)
 {
-  printf("%d\n", p->i_type/*, , p->i_blevel, p->i_defined, p->i_width, p->i_scope, p->i_offset*/);
+  printf("%d\n", p->i_blevel/*, , p->i_blevel, p->i_defined, p->i_width, p->i_scope, p->i_offset*/);
    fprintf(stderr, "sem: fhead not implemented\n");
 }
 
