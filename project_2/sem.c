@@ -225,6 +225,8 @@ struct id_entry *fname(int t, char *id)
    ip->i_name = id;
    ip->i_blevel = t;
 
+   printf("func %s\n", id);
+
    return (ip);
 }
 
