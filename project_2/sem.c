@@ -212,8 +212,7 @@ struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
  */
 void fhead(struct id_entry *p)
 {
-  printf("%d\n", p->i_width/*, , p->i_blevel, p->i_defined, p->i_width, p->i_scope, p->i_offset*/);
-   fprintf(stderr, "sem: fhead not implemented\n");
+  printf("localloc %d\n", 4);
 }
 
 /*
@@ -236,7 +235,7 @@ struct id_entry *fname(int t, char *id)
  */
 void ftail()
 {
-   fprintf(stderr, "sem: ftail not implemented\n");
+  printf("fend");
 }
 
 /*
