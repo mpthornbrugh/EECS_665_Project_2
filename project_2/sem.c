@@ -345,10 +345,7 @@ struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
 {
   struct sem_rec *sr = set(op, x, y);
 
-  printf("%s\n", op);
-
-   fprintf(stderr, "sem: rel not implemented\n");
-   return ((struct sem_rec *) NULL);
+  return (sr);
 }
 
 /*
@@ -376,7 +373,6 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
       p = node(currtemp(), T_INT, (struct sem_rec *) NULL,
         (struct sem_rec *) NULL);
     }
-    fprintf(stderr, "sem: set not implemented\n");
     return(p);
   }
 
