@@ -343,7 +343,7 @@ struct sem_rec *opb(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
 {
-  struct sem_rec *sr;
+  struct sem_rec *sr = set(op, x, y);
 
   printf("%s\n", op);
 
