@@ -360,8 +360,24 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
   struct sem_rec *p, *cast_y;
 
   if(*op!='\0' || x==NULL || y==NULL){
+    /* if for type consistency of x and y */
+    p = y;
+    if((x->s_mode & T_DOUBLE) && !(y->s_mode & T_DOUBLE)){
+      
+      /*p y to a double*/
+      printf("t%d = cvf t%d\n", nexttemp(), y->s_place);
+      p = node(currtemp(), T_DOUBLE, (struct sem_rec *) NULL,
+        (struct sem_rec *) NULL);
+    }
+    else if((x->s_mode & T_INT) && !(y->s_mode & T_INT)){
+
+      /*convert y to integer*/
+      printf("t%d = cvi t%d\n", nexttemp(), y->s_place);
+      p = node(currtemp(), T_INT, (struct sem_rec *) NULL,
+        (struct sem_rec *) NULL);
+    }
     fprintf(stderr, "sem: set not implemented\n");
-    return((struct sem_rec *) NULL);
+    return(p);
   }
 
   /* if for type consistency of x and y */
