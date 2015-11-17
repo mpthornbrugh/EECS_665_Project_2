@@ -235,7 +235,7 @@ struct id_entry *fname(int t, char *id)
  */
 void ftail()
 {
-  printf("fend");
+  printf("fend\n");
 }
 
 /*
@@ -343,6 +343,10 @@ struct sem_rec *opb(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
 {
+  struct sem_rec *sr;
+
+  printf("%s\n", op);
+
    fprintf(stderr, "sem: rel not implemented\n");
    return ((struct sem_rec *) NULL);
 }
