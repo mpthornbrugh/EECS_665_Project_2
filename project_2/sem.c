@@ -212,9 +212,9 @@ struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
  */
 void fhead(struct id_entry *p)
 {
-  extern int level;
+  
   if (p != NULL) {
-    printf("LEVEL %d\n", level);
+    printf("id_entry Attributes: name:%s, type:%d, level:%d, defined:%d, width:%d, scope:%d, offset%d\n", p->i_name, p->i_type, p->i_blevel, p->i_defined, p->i_width, p->i_scope, p->i_offset);
   }
   printf("localloc %d\n", 4);
 }
