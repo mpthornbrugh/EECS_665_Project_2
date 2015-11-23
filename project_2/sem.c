@@ -223,15 +223,16 @@ void fhead(struct id_entry *p)
  */
 struct id_entry *fname(int t, char *id)
 {
-   // struct id_entry *ip;
+  struct id_entry *ip;
 
-   // ip->i_name = id;
-   // ip->i_blevel = t;
+  ip->i_name = id;
+  ip->i_blevel = t;
 
   printf("func %s\n", id);
 
-   // return (ip);
   enterblock();
+
+  return (ip);
 }
 
 /*
