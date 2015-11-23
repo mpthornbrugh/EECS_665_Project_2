@@ -226,7 +226,7 @@ struct id_entry *fname(int t, char *id)
   struct id_entry *ip;
 
   ip->i_name = id;
-  ip->i_blevel = t;
+  ip->i_blevel = t+1;
 
   printf("func %s\n", id);
 
