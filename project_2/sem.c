@@ -220,15 +220,16 @@ void fhead(struct id_entry *p)
  */
 struct id_entry *fname(int t, char *id)
 {
-   struct id_entry *ip;
+   // struct id_entry *ip;
 
-   ip->i_name = id;
-   ip->i_blevel = t;
+   // ip->i_name = id;
+   // ip->i_blevel = t;
 
-   printf("func %s\n", id);
-   printf("LEVEL %d\n", t);
+   // printf("func %s\n", id);
+   // printf("LEVEL %d\n", t);
 
-   return (ip);
+   // return (ip);
+  enterblock();
 }
 
 /*
