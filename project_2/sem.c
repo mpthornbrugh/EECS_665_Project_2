@@ -212,6 +212,9 @@ struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
  */
 void fhead(struct id_entry *p)
 {
+  if (ip == NULL) {
+    printf("p is NULL\n");
+  }
   printf("localloc %d\n", 4);
 }
 
@@ -225,8 +228,7 @@ struct id_entry *fname(int t, char *id)
    // ip->i_name = id;
    // ip->i_blevel = t;
 
-   // printf("func %s\n", id);
-   // printf("LEVEL %d\n", t);
+  printf("func %s\n", id);
 
    // return (ip);
   enterblock();
@@ -238,6 +240,7 @@ struct id_entry *fname(int t, char *id)
 void ftail()
 {
   printf("fend\n");
+  leaveblock();
 }
 
 /*
