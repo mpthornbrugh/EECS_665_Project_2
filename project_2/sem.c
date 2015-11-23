@@ -296,6 +296,7 @@ void labeldcl(char *id)
  */
 int m()
 {
+  printf("currtemp%d\n", currtemp());
   fprintf(stderr, "sem: m not implemented\n");
   return (0);
 }
