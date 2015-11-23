@@ -226,6 +226,7 @@ struct id_entry *fname(int t, char *id)
    ip->i_blevel = t;
 
    printf("func %s\n", id);
+   printf("LEVEL %d\n", t);
 
    return (ip);
 }
