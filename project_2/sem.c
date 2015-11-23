@@ -290,8 +290,6 @@ void labeldcl(char *id)
  */
 int m()
 {
-  
-  
   fprintf(stderr, "sem: m not implemented\n");
   return (0);
 }
