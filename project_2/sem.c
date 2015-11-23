@@ -213,7 +213,7 @@ struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
 void fhead(struct id_entry *p)
 {
   if (p != NULL) {
-    printf("LOCALLOC %d\n", p->i_blevel);
+    printf("LOCALLOC %d\n", p->i_defined);
   }
   printf("localloc %d\n", 4);
 }
