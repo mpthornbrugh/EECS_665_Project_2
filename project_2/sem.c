@@ -297,9 +297,9 @@ void labeldcl(char *id)
  */
 int m()
 {
-  printf("currtemp%d\n", currtemp());
-  fprintf(stderr, "sem: m not implemented\n");
-  return (0);
+  printf("label L%d\n", numlabels + 1);
+  numlabels++;
+  return (numlabels);
 }
 
 /*
