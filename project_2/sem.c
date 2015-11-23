@@ -212,6 +212,9 @@ struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
  */
 void fhead(struct id_entry *p)
 {
+  if (p != NULL) {
+    printf("p is not NULL");
+  }
   printf("localloc %d\n", 4);
 }
 
