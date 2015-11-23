@@ -212,9 +212,10 @@ struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
  */
 void fhead(struct id_entry *p)
 {
+  extern int level;
   enterblock();
   if (p != NULL) {
-    printf("LOCALLOC %d\n", p->i_defined);
+    printf("LEVEL %d\n", level);
   }
   printf("localloc %d\n", 4);
 }
