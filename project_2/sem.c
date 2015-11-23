@@ -227,10 +227,6 @@ struct id_entry *fname(int t, char *id)
 
    printf("func %s\n", id);
 
-   if (ip == NULL) {
-    printf("NULL\n");
-   }
-
    return (ip);
 }
 
