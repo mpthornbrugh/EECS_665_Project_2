@@ -18,7 +18,8 @@ int numblabels = 0;                     /* toal backpatch labels in file */
  */
 void backpatch(struct sem_rec *p, int k)
 {
-	
+	printf("B = L%d\n", k);
+	//p->s_place = k;
    fprintf(stderr, "sem: backpatch not implemented\n");
 }
 
@@ -240,7 +241,7 @@ void doret(struct sem_rec *e)
 }
 
 /*
- * dowhile - while statement
+ * dowhile - while statementalloc %d
  */
 void dowhile(int m1, struct sem_rec *e, int m2, struct sem_rec *n,
              int m3)
@@ -270,11 +271,14 @@ struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
  */
 void fhead(struct id_entry *p)
 {
-  
-  if (p != NULL) {
-    printf("id_entry Attributes: name:%s, type:%d, level:%d, defined:%d, width:%d, scope:%d, offset%d\n", p->i_name, p->i_type, p->i_blevel, p->i_defined, p->i_width, p->i_scope, p->i_offset);
-  }
-  printf("localloc %d\n", 4);
+	for (int i = 0; i < formalnum; i++) {
+		if (formaltypes[i] == 'i') {
+			printf("formal %d\n", 4);
+		}
+		else if (formaltypes[i] == 'f') {
+			printf("formal %d\n", 8);
+		}
+	}
 }
 
 /*
@@ -282,16 +286,24 @@ void fhead(struct id_entry *p)
  */
 struct id_entry *fname(int t, char *id)
 {
-  // struct id_entry *ip;
-
-  // ip->i_name = id;
-  // ip->i_blevel = t+1;
+	enterblock();
+  struct id_entry *ip;
+  
+  if((ip = lookup(id, 0)) == NULL) {
+    ip = install(id, 0);
+    ip->i_type = t;
+    ip->i_scope = PARAM;
+    ip->i_defined = 1;
+  }
+  
+  //ip->i_name = id;
+  ip->i_blevel = t+1;
 
   printf("func %s\n", id);
 
-  enterblock();
+  //enterblock();
 
-  //return (ip);
+  return (ip);
 }
 
 /*
@@ -300,7 +312,6 @@ struct id_entry *fname(int t, char *id)
 void ftail()
 {
   printf("fend\n");
-  leaveblock();
 }
 
 /*
@@ -459,7 +470,7 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
 		  (struct sem_rec *) NULL);
   }
 
-  /*output quad for assignment*/
+  /*output quad for assigndclrment*/
   if(x->s_mode & T_DOUBLE)
     printf("t%d := t%d =f t%d\n", nexttemp(), 
 	   x->s_place, cast_y->s_place);
