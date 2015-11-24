@@ -5,7 +5,7 @@ static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02/21/93";
 #define YYBYACC 1
 #define YYMAJOR 1
 #define YYMINOR 9
-#define YYPATCH 20111219
+#define YYPATCH 20130925
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -70,8 +70,12 @@ typedef union {
 #endif
 
 /* Parameters sent to yyerror. */
+#ifndef YYERROR_DECL
 #define YYERROR_DECL() yyerror(const char *s)
+#endif
+#ifndef YYERROR_CALL
 #define YYERROR_CALL(msg) yyerror(msg)
+#endif
 
 extern int YYPARSE_DECL();
 
@@ -616,11 +620,11 @@ YYSTYPE  yylval;
 #define YYSTACKSIZE YYMAXDEPTH
 #else
 #define YYSTACKSIZE 10000
-#define YYMAXDEPTH  500
+#define YYMAXDEPTH  10000
 #endif
 #endif
 
-#define YYINITSTACKSIZE 500
+#define YYINITSTACKSIZE 200
 
 typedef struct {
     unsigned stacksize;
@@ -658,7 +662,7 @@ yyerror(char msg[])
 {
    fprintf(stderr, " %s.  Line %d\n", msg, lineno);
 }
-#line 661 "y.tab.c"
+#line 665 "y.tab.c"
 
 #if YYDEBUG
 #include <stdio.h>		/* needed for printf */
@@ -682,7 +686,7 @@ static int yygrowstack(YYSTACKDATA *data)
     else if ((newsize *= 2) > YYMAXDEPTH)
         newsize = YYMAXDEPTH;
 
-    i = data->s_mark - data->s_base;
+    i = (int) (data->s_mark - data->s_base);
     newss = (short *)realloc(data->s_base, newsize * sizeof(*newss));
     if (newss == 0)
         return -1;
@@ -1248,7 +1252,7 @@ case 96:
 #line 206 "cgram.y"
 	{ yyval.rec_ptr = tom_index(id(yystack.l_mark[-3].str_ptr), yystack.l_mark[-1].rec_ptr); }
 break;
-#line 1251 "y.tab.c"
+#line 1255 "y.tab.c"
     }
     yystack.s_mark -= yym;
     yystate = *yystack.s_mark;
