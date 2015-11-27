@@ -476,8 +476,8 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
       p = node(currtemp(), T_INT, (struct sem_rec *) NULL,
         (struct sem_rec *) NULL);
     }
-    else {
-      printf("else op: %s\n", op);
+    else if (*op == '*' || *op == '+') {
+      printf("else\n");
     }
 
     return(p);
