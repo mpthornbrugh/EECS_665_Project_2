@@ -385,9 +385,14 @@ int m()
  */
 struct sem_rec *n()
 {
-  printf("br B%d", ++numblabels);
-   fprintf(stderr, "sem: n not implemented\n");
-   return ((struct sem_rec *) NULL);
+  printf("br B%d\n", ++numblabels);
+
+  struct sem_rec *t1
+
+  t1->s_place = numblabels;
+
+  //fprintf(stderr, "sem: n not implemented\n");
+  return (t1);
 }
 
 /*
