@@ -452,7 +452,7 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
       printf("t%d := cvf t%d\n", nexttemp(), y->s_place);
       p = node(currtemp(), T_DOUBLE, (struct sem_rec *) NULL,
         (struct sem_rec *) NULL);
-      printf("t%d := t%d %sf t%d\n", nexttemp(), x->s_place, op, currtemp()-1);
+      printf("t%d := t%d %sf t%d\n", nexttemp(), x->s_place, op, currtemp());
       printf("bt t%d B%d\n", currtemp(), ++numblabels);
       printf("br B%d\n", ++numblabels);
     }
@@ -462,7 +462,7 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
       printf("t%d := cvi t%d\n", nexttemp(), y->s_place);
       p = node(currtemp(), T_INT, (struct sem_rec *) NULL,
         (struct sem_rec *) NULL);
-      printf("t%d := t%d %si t%d\n", nexttemp(), x->s_place, op, currtemp()-1);
+      printf("t%d := t%d %si t%d\n", nexttemp(), x->s_place, op, currtemp());
       printf("bt t%d B%d\n", currtemp(), ++numblabels);
       printf("br B%d\n", ++numblabels);
     }
