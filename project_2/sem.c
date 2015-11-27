@@ -280,7 +280,14 @@ void fhead(struct id_entry *p)
     }
   }
 
-  printf("localnum: %d\n", localnum);
+  for (int i = 0; i < localnum; i++) {
+    if (localtypes[i] == 'i') {
+      printf("localloc %d\n", localwidths[i]);
+    }
+    else if (localtypes[i] == 'f') {
+      printf("localloc %d\n", localwidths[i]);
+    }
+  }
 }
 
 /*
