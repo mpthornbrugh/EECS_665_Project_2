@@ -204,7 +204,7 @@ void dogoto(char *id)
  */
 void doif(struct sem_rec *e, int m1, int m2)
 {
-  printf("doif: m1:%d, m2:%d", m1, m2);
+  printf("doif - e->mode:%d\n", e->s_mode);
   backpatch(e->back.s_true, m1);
   backpatch(e->s_false, m2);
    //fprintf(stderr, "sem: doif not implemented\n");
