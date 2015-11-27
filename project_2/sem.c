@@ -476,7 +476,7 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
       p = node(currtemp(), T_INT, (struct sem_rec *) NULL,
         (struct sem_rec *) NULL);
     }
-    printf("op: %s mode: %d place: %d", op, x->s_mode, x->s_place);
+    printf("op: %s mode: %d place: %d\n", op, x->s_mode, x->s_place);
 
     return(p);
   }
