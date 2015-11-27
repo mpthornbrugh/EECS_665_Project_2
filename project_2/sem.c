@@ -431,7 +431,14 @@ struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
 {
   struct sem_rec *sr = set(op, x, y);
 
-  printf("t%d := t%d %sf t%d\n", nexttemp(), x->s_place, op, currtemp());
+  printf("t%d := t%d %s", nexttemp(), x->s_place, op);
+  if ((x->s_mode & T_DOUBLE) && !(y->s_mode & T_DOUBLE)) {
+    printf("f");
+  }
+  else if ((x->s_mode & T_INT) && !(y->s_mode & T_INT)) {
+    printf("i");
+  }
+  printf(" t%d\n", currtemp());
   printf("bt t%d B%d\n", currtemp(), ++numblabels);
   printf("br B%d\n", ++numblabels);
 
