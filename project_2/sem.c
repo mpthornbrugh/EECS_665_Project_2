@@ -329,7 +329,6 @@ void ftail()
 struct sem_rec *id(char *x)
 {
    struct id_entry *p;
-   printf("identifier.\n");
 
    if ((p = lookup(x, 0)) == NULL) {
       yyerror("undeclared identifier");
@@ -431,6 +430,8 @@ struct sem_rec *opb(char *op, struct sem_rec *x, struct sem_rec *y)
 struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
 {
   struct sem_rec *sr = set(op, x, y);
+
+  printf("sem_rec %s\n", op);
 
   return (sr);
 }
