@@ -189,10 +189,19 @@ void dofor(int m1, struct sem_rec *e2, int m2, struct sem_rec *n1,
            int m3, struct sem_rec *n2, int m4)
 {
    fprintf(stderr, "sem: dofor not implemented\n");
-   backpatch(n1->back.s_true, m1);
-   backpatch(n1->s_false, m2);
-   backpatch(n2->back.s_true, m3);
-   backpatch(n2->s_false, m4);
+   if (e2) {
+    printf("e2\n");
+   }
+   if (n1) {
+    printf("n1\n");
+   }
+   if (n2) {
+    printf("n2\n");
+   }
+   // backpatch(n1->back.s_true, m1);
+   // backpatch(n1->s_false, m2);
+   // backpatch(n2->back.s_true, m3);
+   // backpatch(n2->s_false, m4);
 }
 
 /*
