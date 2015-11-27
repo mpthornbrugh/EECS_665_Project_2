@@ -435,7 +435,6 @@ struct sem_rec *opb(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
 {
-  printf("rel\n");
   struct sem_rec *sr = set(op, x, y);
 
   printf("t%d := t%d %s", nexttemp(), x->s_place, op);
@@ -457,11 +456,11 @@ struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
 {
-  printf("set\n");
   /* assign the value of expression y to the lval x */
   struct sem_rec *p, *cast_y;
 
   if(*op!='\0' || x==NULL || y==NULL){
+    printf("1\n");
     /* if for type consistency of x and y */
     p = y;
     if((x->s_mode & T_DOUBLE) && !(y->s_mode & T_DOUBLE)){
@@ -485,6 +484,7 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
   /* if for type consistency of x and y */
   cast_y = y;
   if((x->s_mode & T_DOUBLE) && !(y->s_mode & T_DOUBLE)){
+    printf("2\n");
     
     /*cast y to a double*/
     printf("t%d := cvf t%d\n", nexttemp(), y->s_place);
@@ -492,6 +492,7 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
       (struct sem_rec *) NULL);
   }
   else if((x->s_mode & T_INT) && !(y->s_mode & T_INT)){
+    printf("3\n");
 
     /*convert y to integer*/
     printf("t%d := cvi t%d\n", nexttemp(), y->s_place);
@@ -499,6 +500,7 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
       (struct sem_rec *) NULL);
   }
 
+    printf("4\n");
   /*output quad for assigndclrment*/
   if(x->s_mode & T_DOUBLE)
     printf("t%d := t%d =f t%d\n", nexttemp(), 
