@@ -251,6 +251,7 @@ void ftail()
 struct sem_rec *id(char *x)
 {
    struct id_entry *p;
+   printf("identifier.\n");
 
    if ((p = lookup(x, 0)) == NULL) {
       yyerror("undeclared identifier");
