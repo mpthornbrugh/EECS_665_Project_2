@@ -438,7 +438,7 @@ struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
   else {
     printf("i");
   }
-  printf(" t%d\n", currtemp());
+  printf(" t%d\n", currtemp() - 1);
   printf("bt t%d B%d\n", currtemp(), ++numblabels);
   printf("br B%d\n", ++numblabels);
 
