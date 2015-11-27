@@ -477,7 +477,13 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
         (struct sem_rec *) NULL);
     }
     else if (*op == '*' || *op == '+') {
-      printf("else\n");
+      printf("mode: %d", x->s_mode);
+      if (x->s_mode & T_INT) {
+
+      }
+      else {
+
+      }
     }
 
     return(p);
