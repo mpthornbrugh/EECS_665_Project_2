@@ -280,9 +280,7 @@ void fhead(struct id_entry *p)
     }
   }
 
-  for (int i = 0; i < localnum; i++) {
-    printf("%s\n", localtypes[i]);
-  }
+  printf("localnum: %d\n", localnum);
 }
 
 /*
