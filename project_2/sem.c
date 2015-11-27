@@ -18,7 +18,7 @@ int numblabels = 0;                     /* toal backpatch labels in file */
  */
 void backpatch(struct sem_rec *p, int k)
 {
-  printf("B = L%d\n", k);
+  printf("B%d = L%d\n", p->s_place, k);
   //p->s_place = k;
    fprintf(stderr, "sem: backpatch not implemented\n");
 }
@@ -188,7 +188,6 @@ void dodo(int m1, int m2, struct sem_rec *e, int m3)
 void dofor(int m1, struct sem_rec *e2, int m2, struct sem_rec *n1,
            int m3, struct sem_rec *n2, int m4)
 {
-   fprintf(stderr, "sem: dofor not implemented\n");
    backpatch(e2->back.s_true, m3);
    backpatch(e2->s_false, m4);
    backpatch(e2->back.s_true, m1);
