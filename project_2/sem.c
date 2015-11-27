@@ -460,6 +460,7 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
       p = node(currtemp(), T_INT, (struct sem_rec *) NULL,
         (struct sem_rec *) NULL);
     }
+  printf("set-op: %s\n", op);
     return(p);
   }
 
@@ -488,7 +489,6 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
     printf("t%d := t%d =i t%d\n", nexttemp(), 
      x->s_place, cast_y->s_place);
 
-  printf("set-op: %s\n", op);
 
   /*create a new node to allow just created temporary to be referenced later */
   return(node(currtemp(), (x->s_mode&~(T_ARRAY)),
