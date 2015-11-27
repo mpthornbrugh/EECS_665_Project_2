@@ -20,7 +20,7 @@ void backpatch(struct sem_rec *p, int k)
 {
   printf("B = L%d\n", k);
   //p->s_place = k;
-   fprintf(stderr, "sem: backpatch not implemented\n");
+  //fprintf(stderr, "sem: backpatch not implemented\n");
 }
 
 /*
@@ -531,7 +531,8 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 void startloopscope()
 {
-   fprintf(stderr, "sem: startloopscope not implemented\n");
+  enterblock();
+   //fprintf(stderr, "sem: startloopscope not implemented\n");
 }
 
 /*
