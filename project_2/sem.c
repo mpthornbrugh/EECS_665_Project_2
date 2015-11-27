@@ -400,7 +400,6 @@ struct sem_rec *n()
  */
 struct sem_rec *op1(char *op, struct sem_rec *y)
 {
-  printf("op1\n");
   if (*op == '@' && !(y->s_mode&T_ARRAY)){
     /* get rid of T_ADDR if it is being dereferenced so can handle
        T_DOUBLE types correctly */
@@ -418,7 +417,6 @@ struct sem_rec *op1(char *op, struct sem_rec *y)
  */
 struct sem_rec *op2(char *op, struct sem_rec *x, struct sem_rec *y)
 {
-  printf("op2\n");
    fprintf(stderr, "sem: op2 not implemented\n");
    return ((struct sem_rec *) NULL);
 }
@@ -428,7 +426,6 @@ struct sem_rec *op2(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 struct sem_rec *opb(char *op, struct sem_rec *x, struct sem_rec *y)
 {
-  printf("opb\n");
    fprintf(stderr, "sem: opb not implemented\n");
    return ((struct sem_rec *) NULL);
 }
@@ -438,6 +435,7 @@ struct sem_rec *opb(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
 {
+  printf("rel\n");
   struct sem_rec *sr = set(op, x, y);
 
   printf("t%d := t%d %s", nexttemp(), x->s_place, op);
@@ -459,6 +457,7 @@ struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
 {
+  printf("set\n");
   /* assign the value of expression y to the lval x */
   struct sem_rec *p, *cast_y;
 
