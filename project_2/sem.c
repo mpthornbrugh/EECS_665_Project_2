@@ -452,6 +452,9 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
       printf("t%d := cvf t%d\n", nexttemp(), y->s_place);
       p = node(currtemp(), T_DOUBLE, (struct sem_rec *) NULL,
         (struct sem_rec *) NULL);
+      gen(op, x, y, T_DOUBLE);
+      printf("bt t%d B%d\n", numlabels, ++numblabels);
+      printf("br B%d\n", ++numblabels);
     }
     else if((x->s_mode & T_INT) && !(y->s_mode & T_INT)){
 
@@ -459,8 +462,11 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
       printf("t%d := cvi t%d\n", nexttemp(), y->s_place);
       p = node(currtemp(), T_INT, (struct sem_rec *) NULL,
         (struct sem_rec *) NULL);
+      gen(op, x, y, T_INT);
+      printf("bt t%d B%d\n", numlabels, ++numblabels);
+      printf("br B%d\n", ++numblabels);
     }
-  printf("set-op: %s\n", op);
+
     return(p);
   }
 
