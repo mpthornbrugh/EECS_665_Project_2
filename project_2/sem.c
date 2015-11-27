@@ -204,7 +204,6 @@ void dogoto(char *id)
  */
 void doif(struct sem_rec *e, int m1, int m2)
 {
-  printf("doif - e->place:%d\n", e->s_place);
   backpatch(e->back.s_true, m1);
   backpatch(e->s_false, m2);
    //fprintf(stderr, "sem: doif not implemented\n");
@@ -488,6 +487,8 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
   else
     printf("t%d := t%d =i t%d\n", nexttemp(), 
      x->s_place, cast_y->s_place);
+
+  printf("set-op: %s\n", op);
 
   /*create a new node to allow just created temporary to be referenced later */
   return(node(currtemp(), (x->s_mode&~(T_ARRAY)),
