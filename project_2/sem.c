@@ -18,7 +18,7 @@ int numblabels = 0;                     /* toal backpatch labels in file */
  */
 void backpatch(struct sem_rec *p, int k)
 {
-  printf("B%d = L%d\n", p->s_place, k);
+  printf("B = L%d\n", k);
   //p->s_place = k;
    fprintf(stderr, "sem: backpatch not implemented\n");
 }
