@@ -387,7 +387,7 @@ struct sem_rec *n()
 {
   printf("br B%d\n", ++numblabels);
 
-  struct sem_rec *t1
+  struct sem_rec *t1;
 
   t1->s_place = numblabels;
 
