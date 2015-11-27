@@ -435,7 +435,7 @@ struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
   if ((x->s_mode & T_DOUBLE) && !(y->s_mode & T_DOUBLE)) {
     printf("f");
   }
-  else if ((x->s_mode & T_INT) && !(y->s_mode & T_INT)) {
+  else {
     printf("i");
   }
   printf(" t%d\n", currtemp());
