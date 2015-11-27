@@ -385,6 +385,7 @@ int m()
  */
 struct sem_rec *n()
 {
+  printf("br B%d", ++numblabels);
    fprintf(stderr, "sem: n not implemented\n");
    return ((struct sem_rec *) NULL);
 }
@@ -398,7 +399,6 @@ struct sem_rec *op1(char *op, struct sem_rec *y)
     /* get rid of T_ADDR if it is being dereferenced so can handle
        T_DOUBLE types correctly */
     y->s_mode &= ~T_ADDR;
-    printf("op1: %s\n", op);
     return (gen(op, (struct sem_rec *) NULL, y, y->s_mode));
   }
   else{
