@@ -477,7 +477,8 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
         (struct sem_rec *) NULL);
     }
     else if (*op == '*' || *op == '+') {
-      printf("mode: %d", x->s_mode);
+      printf("int: %d double: %d string: %d procedure: %d, array: %d address: %d label: %d\n", T_INT, T_DOUBLE, T_STR, T_PROC, T_ARRAY, T_ADDR, T_LBL);
+      printf("mode: %d\n", x->s_mode);
       if (x->s_mode & T_INT) {
 
       }
