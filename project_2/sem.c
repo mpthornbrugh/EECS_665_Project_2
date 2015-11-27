@@ -282,10 +282,10 @@ void fhead(struct id_entry *p)
 
   for (int i = 0; i < localnum; i++) {
     if (localtypes[i] == 'i') {
-      printf("localloc %d\n", localwidths[i]);
+      printf("localloc %d\n", 4);
     }
     else if (localtypes[i] == 'f') {
-      printf("localloc %d\n", localwidths[i]);
+      printf("localloc %d\n", 8);
     }
   }
 }
