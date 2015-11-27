@@ -477,7 +477,7 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
         (struct sem_rec *) NULL);
     }
     else {
-      printf("else\n");
+      printf("else op: %s\n", op);
     }
 
     return(p);
