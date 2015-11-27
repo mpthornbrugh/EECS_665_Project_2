@@ -477,13 +477,11 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
         (struct sem_rec *) NULL);
     }
     else if (*op == '*' || *op == '+') {
-      printf("int: %d double: %d string: %d procedure: %d, array: %d address: %d label: %d\n", T_INT, T_DOUBLE, T_STR, T_PROC, T_ARRAY, T_ADDR, T_LBL);
-      printf("mode: %d\n", x->s_mode);
-      if (x->s_mode & T_INT) {
-
+      if (x->s_mode == 33) { //int
+        printf("t%d := @i t%d", nexttemp(), x->s_place);
       }
-      else {
-
+      else { //float
+        printf("t%d := @f t%d", nexttemp(), x->s_place);
       }
     }
 
