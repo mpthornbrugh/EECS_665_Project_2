@@ -192,7 +192,7 @@ void dofor(int m1, struct sem_rec *e2, int m2, struct sem_rec *n1,
    backpatch(e2->s_false, m4);
    backpatch(e2->back.s_true, m1);
    backpatch(e2->s_false, m2);
-   endloopscope();
+   endloopscope(0);
 }
 
 /*
