@@ -127,7 +127,7 @@ stmt    : expr ';'
                 { dowhile($3, $4, $6, $9, $10); }
         | DO m s lblstmt WHILE '(' m cexpr ')' ';' m
                 { dodo($2, $7, $8, $11); }
-        | FOR '(' expro ';' a cexpro ';' m expro n ')' m s lblstmt n m
+        | FOR '(' expro ';' m cexpro ';' m expro n ')' m s lblstmt n m
                 { dofor($5, $6, $8, $10, $12, $15, $16); }
 	| CONTINUE ';'
 		{ docontinue(); }
