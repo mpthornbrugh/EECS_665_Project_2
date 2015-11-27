@@ -400,6 +400,7 @@ struct sem_rec *n()
  */
 struct sem_rec *op1(char *op, struct sem_rec *y)
 {
+  printf("op1\n");
   if (*op == '@' && !(y->s_mode&T_ARRAY)){
     /* get rid of T_ADDR if it is being dereferenced so can handle
        T_DOUBLE types correctly */
@@ -417,6 +418,7 @@ struct sem_rec *op1(char *op, struct sem_rec *y)
  */
 struct sem_rec *op2(char *op, struct sem_rec *x, struct sem_rec *y)
 {
+  printf("op2\n");
    fprintf(stderr, "sem: op2 not implemented\n");
    return ((struct sem_rec *) NULL);
 }
@@ -426,6 +428,7 @@ struct sem_rec *op2(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 struct sem_rec *opb(char *op, struct sem_rec *x, struct sem_rec *y)
 {
+  printf("opb\n");
    fprintf(stderr, "sem: opb not implemented\n");
    return ((struct sem_rec *) NULL);
 }
