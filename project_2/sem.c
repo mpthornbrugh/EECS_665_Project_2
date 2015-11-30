@@ -542,7 +542,7 @@ void startloopscope()
  */
 struct sem_rec *string(char *s)
 {
-  printf("\"%s\"\n", s);
+  printf("t%d := %s\n", nexttemp(), s);
   struct sem_rec *t1;
 
   t1->s_mode = T_STR;
