@@ -542,8 +542,12 @@ void startloopscope()
  */
 struct sem_rec *string(char *s)
 {
-   fprintf(stderr, "sem: string not implemented\n");
-   return ((struct sem_rec *) NULL);
+  printf("\"%s\"\n", s);
+  struct sem_rec *t1;
+
+  t1->s_mode = T_STR;
+   //fprintf(stderr, "sem: string not implemented\n");
+   return (t1);
 }
 
 
