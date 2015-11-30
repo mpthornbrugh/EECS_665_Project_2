@@ -279,6 +279,7 @@ void endloopscope(int m)
  */
 struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
 {
+  fprintf(stderr, "sem: exprs not implemented\n");
   args[argnum] = currtemp();
   if (e->s_mode & T_INT) {
     argtypes[argnum] = 1;
