@@ -10,7 +10,7 @@ extern int localnum;
 extern char localtypes[];
 extern int localwidths[];
 
-int args[50];
+int arguments[50];
 int argtypes[50];
 int argnum = 0;
 
@@ -45,13 +45,13 @@ struct sem_rec *call(char *f, struct sem_rec *args)
 {
   printf("HEY\n");
   printf("argnum: %d\n", argnum);
-  printf("5th arg: %d\n", args[4]);
+  printf("5th arg: %d\n", arguments[4]);
   for (int i = 0; i < argnum; i++) {
     if (argtypes[i] == 1) {
-      printf("argi t%d\n", args[i]);
+      printf("argi t%d\n", arguments[i]);
     }
     else  {
-      printf("argf t%d\n", args[i]);
+      printf("argf t%d\n", arguments[i]);
     }
   }
   fprintf(stderr, "sem: call not implemented\n");
@@ -283,7 +283,7 @@ void endloopscope(int m)
 struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
 {
   fprintf(stderr, "sem: exprs not implemented\n");
-  args[argnum] = currtemp();
+  arguments[argnum] = currtemp();
   if (e->s_mode & T_INT) {
     argtypes[argnum] = 1;
   }
@@ -569,7 +569,7 @@ struct sem_rec *string(char *s)
   printf("t%d := %s\n", nexttemp(), s);
   struct sem_rec *t1;
 
-  args[argnum] = currtemp();
+  arguments[argnum] = currtemp();
   argtypes[argnum] = 1;
   argnum++;
 
