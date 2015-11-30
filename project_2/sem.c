@@ -10,6 +10,10 @@ extern int localnum;
 extern char localtypes[];
 extern int localwidths[];
 
+int args[50];
+int argtypes[50];
+int argnum = 0;
+
 int numlabels = 0;                      /* total labels in file */
 int numblabels = 0;                     /* toal backpatch labels in file */
 
@@ -39,8 +43,16 @@ void bgnstmt()
  */
 struct sem_rec *call(char *f, struct sem_rec *args)
 {
-   fprintf(stderr, "sem: call not implemented\n");
-   return ((struct sem_rec *) NULL);
+  for (int i = 0; i < argnum; i++) {
+    if (argtypes[i] == 1) {
+      printf("argi t%d\n", args[i]);
+    }
+    else  {
+      printf("argf t%d\n", args[i]);
+    }
+  }
+  fprintf(stderr, "sem: call not implemented\n");
+  return (args);
 }
 
 /*
@@ -267,8 +279,16 @@ void endloopscope(int m)
  */
 struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
 {
-   fprintf(stderr, "sem: exprs not implemented\n");
-   return ((struct sem_rec *) NULL);
+  args[argnum] = currtemp();
+  if (e->s_mode & T_INT) {
+    argtypes[argnum] = 1;
+  }
+  else {
+    argtypes[argnum] = 2;
+  }
+  argnum++;
+  //fprintf(stderr, "sem: exprs not implemented\n");
+  return (l);
 }
 
 /*
@@ -545,8 +565,11 @@ struct sem_rec *string(char *s)
   printf("t%d := %s\n", nexttemp(), s);
   struct sem_rec *t1;
 
+  args[argnum] = currtemp();
+  argtypes[argnum] = 1;
+  argnum++;
+
   t1->s_mode = T_STR;
-   //fprintf(stderr, "sem: string not implemented\n");
    return (t1);
 }
 
