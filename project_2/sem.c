@@ -45,6 +45,7 @@ struct sem_rec *call(char *f, struct sem_rec *args)
 {
   printf("HEY\n");
   printf("argnum: %d\n", argnum);
+  printf("5th arg: %d\n", args[4]);
   for (int i = 0; i < argnum; i++) {
     if (argtypes[i] == 1) {
       printf("argi t%d\n", args[i]);
