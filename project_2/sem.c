@@ -44,6 +44,7 @@ void bgnstmt()
 struct sem_rec *call(char *f, struct sem_rec *args)
 {
   printf("HEY\n");
+  printf("argnum: %d\n", argnum);
   for (int i = 0; i < argnum; i++) {
     if (argtypes[i] == 1) {
       printf("argi t%d\n", args[i]);
