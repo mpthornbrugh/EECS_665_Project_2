@@ -14,6 +14,8 @@ int arguments[50];
 int argtypes[50];
 int argnum = 0;
 
+int bnum = 1;
+
 int numlabels = 0;                      /* total labels in file */
 int numblabels = 0;                     /* toal backpatch labels in file */
 
@@ -22,7 +24,8 @@ int numblabels = 0;                     /* toal backpatch labels in file */
  */
 void backpatch(struct sem_rec *p, int k)
 {
-  printf("B = L%d\n", k);
+  printf("B%d = L%d\n", bnum, k);
+  bnum++;
   //p->s_place = k;
   //fprintf(stderr, "sem: backpatch not implemented\n");
 }
