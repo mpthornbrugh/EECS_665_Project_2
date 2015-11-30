@@ -43,9 +43,6 @@ void bgnstmt()
  */
 struct sem_rec *call(char *f, struct sem_rec *args)
 {
-  printf("HEY\n");
-  printf("argnum: %d\n", argnum);
-  printf("5th arg: %d\n", arguments[4]);
   for (int i = 0; i < argnum; i++) {
     if (argtypes[i] == 1) {
       printf("argi t%d\n", arguments[i]);
@@ -54,6 +51,8 @@ struct sem_rec *call(char *f, struct sem_rec *args)
       printf("argf t%d\n", arguments[i]);
     }
   }
+  printf("t%d := %s\n", nexttemp(), f);
+  printf("t%d := fi t%d %d", nexttemp(), currtemp(), argnum);
   fprintf(stderr, "sem: call not implemented\n");
   return (args);
 }
@@ -282,7 +281,6 @@ void endloopscope(int m)
  */
 struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
 {
-  fprintf(stderr, "sem: exprs not implemented\n");
   arguments[argnum] = currtemp();
   if (e->s_mode & T_INT) {
     argtypes[argnum] = 1;
