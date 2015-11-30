@@ -51,7 +51,7 @@ struct sem_rec *call(char *f, struct sem_rec *args)
       printf("argf t%d\n", arguments[i]);
     }
   }
-  printf("t%d := %s\n", nexttemp(), f);
+  printf("t%d := global %s\n", nexttemp(), f);
   printf("t%d := fi t%d %d", nexttemp(), currtemp(), argnum);
   fprintf(stderr, "sem: call not implemented\n");
   return (args);
