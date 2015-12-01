@@ -10,12 +10,6 @@ extern int localnum;
 extern char localtypes[];
 extern int localwidths[];
 
-int arguments[50];
-int argtypes[50];
-int argnum = 0;
-
-int bnum = 1;
-
 int numlabels = 0;                      /* total labels in file */
 int numblabels = 0;                     /* toal backpatch labels in file */
 
@@ -24,8 +18,7 @@ int numblabels = 0;                     /* toal backpatch labels in file */
  */
 void backpatch(struct sem_rec *p, int k)
 {
-  printf("B%d = L%d\n", bnum, k);
-  bnum++;
+  printf("B%d = L%d\n", p->s_place, k);
   //p->s_place = k;
   //fprintf(stderr, "sem: backpatch not implemented\n");
 }
@@ -46,17 +39,54 @@ void bgnstmt()
  */
 struct sem_rec *call(char *f, struct sem_rec *args)
 {
-  for (int i = 0; i < argnum; i++) {
-    if (argtypes[i] == 1) {
-      printf("argi t%d\n", arguments[i]);
+  struct sem_rec *traverse;
+  int numArgs = 0;
+  traverse = args;
+
+  while (traverse != NULL)
+  {
+    numArgs++;
+    traverse = traverse->back.s_true;
+  }
+
+  struct sem_rec *l[numArgs];
+  traverse = args;
+
+  for (int i = numArgs; traverse != NULL; i--) {
+    l[i-1] = traverse;
+    traverse = traverse->back.s_true;
+  }
+
+  for (int i = 0; i < numArgs; i++) {
+    if (l[i]->s_mode == 0 || l[i]->s_mode == 1) {
+      printf("argi t%d\n", l[i]->s_place);
     }
-    else  {
-      printf("argf t%d\n", arguments[i]);
+    else {
+      printf("argf t%d\n", l[i]->s_place);
     }
   }
-  printf("t%d := global %s\n", nexttemp(), f);
-  printf("t%d := fi t%d %d\n", nexttemp(), currtemp(), argnum);
-  return (args);
+
+  struct id_entry *temp;
+  if ((temp = lookup(f, 0)) == NULL) {
+    temp = install(f, 0);
+    temp->i_type = T_INT;
+    temp->i_type = GLOBAL;
+    temp->i_defined = 1;
+  }
+
+  char *scope;
+  if (temp->i_scope & GLOBAL) {
+    scope = "global";
+  }
+  else if (temp->i_scope & LOCAL) {
+    scope = "local";
+  }
+  else if (temp->i_scope & PARAM) {
+    scope = "param";
+  }
+  printf("t%d := %s %s\n", nexttemp(), scope, f);
+  printf("t%d := f%d t%d %d\n", nexttemp(), temp->i_type, currtemp(), numArgs);
+  return ((struct sem_rec *) NULL);
 }
 
 /*
@@ -179,7 +209,7 @@ struct sem_rec *con(char *x)
  */
 void dobreak()
 {
-   fprintf(stderr, "sem: dobreak not implemented\n");
+   n();
 }
 
 /*
@@ -187,7 +217,7 @@ void dobreak()
  */
 void docontinue()
 {
-   fprintf(stderr, "sem: docontinue not implemented\n");
+   n();
 }
 
 /*
@@ -195,7 +225,8 @@ void docontinue()
  */
 void dodo(int m1, int m2, struct sem_rec *e, int m3)
 {
-   fprintf(stderr, "sem: dodo not implemented\n");
+  backpatch(e->back.s_true, m1);
+  backpatch(e->s_false, m2);
 }
 
 /*
@@ -206,9 +237,8 @@ void dofor(int m1, struct sem_rec *e2, int m2, struct sem_rec *n1,
 {
    backpatch(e2->back.s_true, m3);
    backpatch(e2->s_false, m4);
-   backpatch(e2->back.s_true, m1);
-   backpatch(e2->s_false, m2);
-   endloopscope(0);
+   backpatch(n1, m1);
+   backpatch(n2, m2);
 }
 
 /*
@@ -216,7 +246,7 @@ void dofor(int m1, struct sem_rec *e2, int m2, struct sem_rec *n1,
  */
 void dogoto(char *id)
 {
-   fprintf(stderr, "sem: dogoto not implemented\n");
+  n();
 }
 
 /*
@@ -226,7 +256,6 @@ void doif(struct sem_rec *e, int m1, int m2)
 {
   backpatch(e->back.s_true, m1);
   backpatch(e->s_false, m2);
-   //fprintf(stderr, "sem: doif not implemented\n");
 }
 
 /*
@@ -236,11 +265,8 @@ void doifelse(struct sem_rec *e, int m1, struct sem_rec *n,
                          int m2, int m3)
 {
   backpatch(e->back.s_true, m1);
-  backpatch(e->s_false, m2);
-  backpatch(n->back.s_true, m2);
-  backpatch(n->s_false, m3);
-  
-   //fprintf(stderr, "sem: doifelse not implemented\n");
+  backpatch(n, m2);
+  backpatch(e->s_false, m3);
 }
 
 /*
@@ -266,7 +292,9 @@ void doret(struct sem_rec *e)
 void dowhile(int m1, struct sem_rec *e, int m2, struct sem_rec *n,
              int m3)
 {
-   fprintf(stderr, "sem: dowhile not implemented\n");
+  backpatch(e->back.s_true, m2);
+  backpatch(e->s_false, m3);
+  backpatch(n, m1);
 }
 
 /*
@@ -283,16 +311,8 @@ void endloopscope(int m)
  */
 struct sem_rec *exprs(struct sem_rec *l, struct sem_rec *e)
 {
-  arguments[argnum] = currtemp();
-  if (e->s_mode & T_INT) {
-    argtypes[argnum] = 1;
-  }
-  else {
-    argtypes[argnum] = 2;
-  }
-  argnum++;
-  //fprintf(stderr, "sem: exprs not implemented\n");
-  return (l);
+  e->back.s_true = l;
+  return e;
 }
 
 /*
@@ -325,23 +345,8 @@ void fhead(struct id_entry *p)
 struct id_entry *fname(int t, char *id)
 {
   enterblock();
-  struct id_entry *ip;
-  
-  if((ip = lookup(id, 0)) == NULL) {
-    ip = install(id, 0);
-    ip->i_type = t;
-    ip->i_scope = PARAM;
-    ip->i_defined = 1;
-  }
-  
-  //ip->i_name = id;
-  ip->i_blevel = t+1;
-
   printf("func %s\n", id);
-
-  //enterblock();
-
-  return (ip);
+  return ((struct id_entry *) NULL);
 }
 
 /*
@@ -350,6 +355,7 @@ struct id_entry *fname(int t, char *id)
 void ftail()
 {
   printf("fend\n");
+  leaveblock();
 }
 
 /*
@@ -396,7 +402,7 @@ struct sem_rec *tom_index(struct sem_rec *x, struct sem_rec *i)
  */
 void labeldcl(char *id)
 {
-   fprintf(stderr, "sem: labeldcl not implemented\n");
+  backpatch(n(), m());
 }
 
 /*
@@ -418,9 +424,10 @@ struct sem_rec *n()
 
   struct sem_rec *t1;
 
+  t1 = (struct sem_rec *)malloc(sizeof(struct sem_rec));
+
   t1->s_place = numblabels;
 
-  //fprintf(stderr, "sem: n not implemented\n");
   return (t1);
 }
 
@@ -436,8 +443,7 @@ struct sem_rec *op1(char *op, struct sem_rec *y)
     return (gen(op, (struct sem_rec *) NULL, y, y->s_mode));
   }
   else{
-    fprintf(stderr, "sem: op1 not implemented\n");
-    return ((struct sem_rec *) NULL);
+    return (gen(op, (struct sem_rec *) NULL, y, y->s_mode));
   }
 }
 
@@ -446,8 +452,30 @@ struct sem_rec *op1(char *op, struct sem_rec *y)
  */
 struct sem_rec *op2(char *op, struct sem_rec *x, struct sem_rec *y)
 {
-   fprintf(stderr, "sem: op2 not implemented\n");
-   return ((struct sem_rec *) NULL);
+  int xMode, yMode;
+  if (x->s_mode & T_INT && !(y->s_mode & T_INT)) {
+    xMode = T_INT;
+    yMode = T_DOUBLE;
+  }
+  else if (!(x->s_mode & T_INT) && y->s_mode & T_INT) {
+    yMode = T_INT;
+    xMode = T_DOUBLE;
+  }
+  else if (!(x->s_mode & T_INT) && !(y->s_mode & T_INT)) {
+    xMode = T_DOUBLE;
+    yMode = T_DOUBLE;
+  }
+
+  if (xMode != yMode) {
+    if (xMode > yMode) {
+      y = cast(y, x->s_mode);
+    }
+    else {
+      x = cast(x, y->s_mode);
+    }
+  }
+
+  return (gen(op, x, y, y->s_mode));
 }
 
 /*
@@ -455,8 +483,7 @@ struct sem_rec *op2(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 struct sem_rec *opb(char *op, struct sem_rec *x, struct sem_rec *y)
 {
-   fprintf(stderr, "sem: opb not implemented\n");
-   return ((struct sem_rec *) NULL);
+  return (gen(op, x, y, y->s_mode));
 }
 
 /*
@@ -464,20 +491,21 @@ struct sem_rec *opb(char *op, struct sem_rec *x, struct sem_rec *y)
  */
 struct sem_rec *rel(char *op, struct sem_rec *x, struct sem_rec *y)
 {
-  struct sem_rec *sr = set(op, x, y);
+  if (x->s_mode > y->s_mode) {
+    y = cast(y, x->s_mode);
+  }
+  else if (y->s_mode > x->s_mode) {
+    x = cast(x, y->s_mode);
+  }
 
-  printf("t%d := t%d %s", nexttemp(), x->s_place, op);
-  if ((x->s_mode & T_DOUBLE) && !(y->s_mode & T_DOUBLE)) {
-    printf("f");
-  }
-  else {
-    printf("i");
-  }
-  printf(" t%d\n", currtemp() - 1);
+  struct sem_rec *returnVal = gen(op, x, y, x->s_mode);
+  returnVal->back.s_true = (struct sem_rec *) malloc(sizeof(struct sem_rec));
   printf("bt t%d B%d\n", currtemp(), ++numblabels);
+  returnVal->back.s_true->s_place = numblabels;
   printf("br B%d\n", ++numblabels);
-
-  return (sr);
+  returnVal->s_false = (struct sem_rec *) malloc(sizeof(struct sem_rec));
+  returnVal->s_false->s_place = numblabels;
+  return returnVal;
 }
 
 /*
@@ -488,37 +516,34 @@ struct sem_rec *set(char *op, struct sem_rec *x, struct sem_rec *y)
   /* assign the value of expression y to the lval x */
   struct sem_rec *p, *cast_y;
 
-  if(*op!='\0' || x==NULL || y==NULL){
-    /* if for type consistency of x and y */
-    p = y;
-    if((x->s_mode & T_DOUBLE) && !(y->s_mode & T_DOUBLE)){
-      
-      /*p y to a double*/
-      printf("t%d := cvf t%d\n", nexttemp(), y->s_place);
-      p = node(currtemp(), T_DOUBLE, (struct sem_rec *) NULL,
-        (struct sem_rec *) NULL);
-    }
-    else if((x->s_mode & T_INT) && !(y->s_mode & T_INT)){
+  if(*op!='\0' || x==NULL || y==NULL) {
+    int xMode = x->s_mode;
+    int yMode = y->s_mode;
 
-      /*convert y to integer*/
-      printf("t%d := cvi t%d\n", nexttemp(), y->s_place);
-      p = node(currtemp(), T_INT, (struct sem_rec *) NULL,
-        (struct sem_rec *) NULL);
+    if (xMode & T_INT) {
+      xMode = T_INT;
     }
-    else if (*op == '*' || *op == '+') {
-      if (x->s_mode == 33) { //int
-        printf("t%d := @i t%d\n", nexttemp(), x->s_place);
-        printf("t%d := t%d %si t%d\n", nexttemp(), currtemp(), op, currtemp() - 1);
-        printf("t%d := t%d =i t%d\n", nexttemp(), x->s_place, currtemp());
-      }
-      else { //float
-        printf("t%d := @f t%d\n", nexttemp(), x->s_place);
-        printf("t%d := t%d %sf t%d\n", nexttemp(), currtemp(), op, currtemp() - 1);
-        printf("t%d := t%d =f t%d\n", nexttemp(), x->s_place, currtemp());
-      }
+    else {
+      xMode = T_DOUBLE;
     }
 
-    return(p);
+    if (yMode & T_INT) {
+      yMode = T_INT;
+    }
+    else {
+      yMode = T_DOUBLE;
+    }
+
+    struct sem_rec *q = gen("@", (struct sem_rec *) NULL, x, xMode);
+    struct sem_rec *r;
+    if (y->s_mode == T_ARRAY) {
+      r = gen("@", (struct sem_rec *) NULL, cast(y, xMode), yMode);
+    }
+    else {
+      r = cast(y, xMode);
+    }
+    struct sem_rec *t = gen(op, q, r, xMode);
+    return (gen("=", x, t, xMode));
   }
 
   /* if for type consistency of x and y */
@@ -568,13 +593,9 @@ struct sem_rec *string(char *s)
 {
   printf("t%d := %s\n", nexttemp(), s);
   struct sem_rec *t1;
-
-  arguments[argnum] = currtemp();
-  argtypes[argnum] = 1;
-  argnum++;
-
-  t1->s_mode = T_STR;
-   return (t1);
+  t1 = (struct sem_rec *)malloc(sizeof(struct sem_rec));
+  t1->s_place = currtemp();
+  return t1;
 }
 
 
